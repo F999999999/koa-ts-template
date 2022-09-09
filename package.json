@@ -1,0 +1,49 @@
+{
+  "name": "koa-ts-template",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "tsdev": "set NODE_ENV=development&&ts-node-dev --respawn -r tsconfig-paths/register ./bin/www.ts",
+    "tsprod": "set NODE_ENV=production&&ts-node -r tsconfig-paths/register ./bin/www.ts",
+    "dev": "tsc&&set NODE_ENV=development&&nodemon -r tsconfig-paths/register bin/www.ts",
+    "test": "set NODE_ENV=test&&nodemon bin/www.ts",
+    "prod": "set NODE_ENV=production&&pm2 start bin/www.ts"
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "dotenv": "^16.0.1",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.7.0",
+    "koa-body": "^5.0.0",
+    "koa-convert": "^1.2.0",
+    "koa-json": "^2.0.2",
+    "koa-jwt": "^4.0.3",
+    "koa-logger": "^3.2.0",
+    "koa-onerror": "^4.1.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6",
+    "mysql2": "^2.3.3",
+    "require-directory": "^2.1.1"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.7",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/koa": "^2.13.5",
+    "@types/koa-bodyparser": "^4.3.7",
+    "@types/koa-convert": "^1.2.4",
+    "@types/koa-json": "^2.0.20",
+    "@types/koa-logger": "^3.1.2",
+    "@types/koa-router": "^7.4.4",
+    "@types/koa-static": "^4.0.2",
+    "@types/koa2-cors": "^2.0.2",
+    "@types/require-directory": "^2.1.2",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.1.0",
+    "typescript": "^4.8.2"
+  }
+}
