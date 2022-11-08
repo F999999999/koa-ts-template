@@ -1,9 +1,7 @@
 import { query } from "@/db/mysql";
-import { PoolConnection } from "mysql2";
-import { FindUserByUserName, FindUserInfo, UserRegister } from "users";
 
 // 查询用户是否存在
-export const findUserByUserName: FindUserByUserName = async (
+export const findUserByUserName: UserV1.FindUserByUserName = async (
   { username },
   conn
 ) => {
@@ -15,7 +13,7 @@ export const findUserByUserName: FindUserByUserName = async (
 };
 
 // 用户注册
-export const userRegister: UserRegister = async (
+export const userRegister: UserV1.UserRegister = async (
   { username, password, isState = 1 },
   conn
 ) => {
@@ -27,9 +25,9 @@ export const userRegister: UserRegister = async (
 };
 
 // 查询用户信息
-export const findUserInfo: FindUserInfo = async (
+export const findUserInfo: UserV1.FindUserInfo = async (
   { username, password },
-  conn: PoolConnection | null = null
+  conn
 ) => {
   return await query(
     "SELECT id,username,password,state FROM sys_user WHERE username= ? AND password = ?",
