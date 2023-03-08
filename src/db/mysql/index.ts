@@ -1,4 +1,5 @@
-import mysql, { PoolConnection, QueryOptions } from "mysql2";
+import mysql, { OkPacket, ResultSetHeader, RowDataPacket } from "mysql2";
+import { PoolConnection } from "mysql2/promise";
 
 // 导入数据库配置信息
 import mysqlConfig from "./config";
@@ -40,55 +41,73 @@ export const rollbackTransaction = async (conn?: PoolConnection) => {
     console.log("[sql]", "==> 回滚事务");
   }
   // 回滚事务
-  await conn.rollback(() => {});
+  await conn.rollback();
   // 释放连接
   conn.release();
 };
 
 // 使用事务执行SQL语句
 export const transactionQuery = async <T>(
-  sql: string | string[],
-  payload: T[] | T[][] = [],
-  conn?: PoolConnection
-) => {
-  // 判断是否有多条SQL语句
-  if (Array.isArray(sql)) {
-    const rows = [];
-    for (let i = 0; i < sql.length; i++) {
-      // 开发环境中打印sql语句
-      if (process.env.NODE_ENV === "development") {
-        console.log("[sql]", mysql.format(sql[i], payload[i]));
-      }
-      // 执行SQL语句
-      const [row]: any = await conn.execute(
-        sql[i] as unknown as QueryOptions,
-        payload[i]
-      );
-      rows.push(row);
-    }
-    return rows;
-  } else {
+  sql: string,
+  payload: T[] = [],
+  conn: PoolConnection
+): Promise<RowDataPacket[] | OkPacket | ResultSetHeader> => {
+  // 开发环境中打印sql语句
+  if (process.env.NODE_ENV === "development") {
+    console.log("[sql]", mysql.format(sql, payload));
+  }
+  // 执行SQL语句
+  const [rows] = await conn.execute<
+    RowDataPacket[] | OkPacket | ResultSetHeader
+  >(sql, payload);
+  return rows;
+};
+
+// 批量使用事务执行SQL语句
+export const transactionQueryBatch = async <T>(
+  sql: string[],
+  payload: T[][] = [],
+  conn: PoolConnection
+): Promise<(RowDataPacket[] | OkPacket | ResultSetHeader)[]> => {
+  const rowsList: (RowDataPacket[] | OkPacket | ResultSetHeader)[] = [];
+
+  for (let i = 0; i < sql.length; i++) {
     // 开发环境中打印sql语句
     if (process.env.NODE_ENV === "development") {
-      console.log("[sql]", mysql.format(sql, payload));
+      console.log("[sql]", mysql.format(sql[0], payload[0]));
     }
     // 执行SQL语句
-    const [rows]: any = await conn.execute(
-      sql as unknown as QueryOptions,
-      payload
-    );
-    return rows;
+    const [rows] = await conn.execute<
+      RowDataPacket[] | OkPacket | ResultSetHeader
+    >(sql[0], payload[0]);
+    rowsList.push(rows);
   }
+  return rowsList;
 };
 
 // 自动事务执行SQL语句
 export const autoTransactionQuery = async <T>(
-  sql: string | string[],
+  sql: string,
   payload: T[] = []
 ) => {
   // 从连接池中获取一条连接
   const conn = await pool.promise().getConnection();
-  const rows = transactionQuery(sql, payload);
+  // 执行
+  const rows = await transactionQuery(sql, payload, conn);
+  // 释放连接
+  conn.release();
+  return rows;
+};
+
+// 批量自动事务执行SQL语句
+export const autoTransactionQueryBatch = async <T>(
+  sql: string[],
+  payload: T[][] = [[]]
+) => {
+  // 从连接池中获取一条连接
+  const conn = await pool.promise().getConnection();
+  // 执行
+  const rows = await transactionQueryBatch(sql, payload, conn);
   // 释放连接
   conn.release();
   return rows;
@@ -97,12 +116,32 @@ export const autoTransactionQuery = async <T>(
 // 执行SQL语句
 export const query = async <T>(
   sql: string | string[],
-  payload: T[] = [],
-  conn?: PoolConnection
+  payload: T[] | T[][] = [],
+  conn?: PoolConnection,
+  rawData?: boolean
 ) => {
-  if (conn) {
-    return await transactionQuery(sql, payload, conn);
+  // 判断是否有多条SQL语句
+  if (sql instanceof Array && payload[0] instanceof Array) {
+    // 类型断言
+    sql = sql as string[];
+    payload = payload as T[][];
+    const raw = conn
+      ? await transactionQueryBatch(sql, payload, conn)
+      : await autoTransactionQueryBatch(sql, payload);
+    if (!rawData) {
+      return JSON.parse(JSON.stringify(raw)) as any[];
+    }
+    return raw;
   } else {
-    return await autoTransactionQuery(sql, payload);
+    // 类型断言
+    sql = sql as string;
+    payload = payload as T[];
+    const raw = conn
+      ? await transactionQuery(sql, payload, conn)
+      : await autoTransactionQuery(sql, payload);
+    if (!rawData) {
+      return JSON.parse(JSON.stringify(raw)) as any;
+    }
+    return raw;
   }
 };
