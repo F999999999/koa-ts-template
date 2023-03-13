@@ -110,13 +110,46 @@ export const login = async (ctx) => {
 };
 
 // 信息
-export const Info = (ctx) => {
-  ctx.body = {
-    status: 200,
-    message: "获取成功",
-    data: {
-      name: "九玖",
-      age: 18,
-    },
-  };
+export const Info = async (ctx) => {
+  const { username, password } = ctx.query;
+  // 校验参数
+  const schema = Joi.object({
+    username: Joi.string().min(4).max(20).required(),
+    password: Joi.string().pattern(/^[a-zA-Z0-9]{6,20}$/),
+  });
+  // 校验
+  const verify = schema.validate({ username, password });
+  // 判断校验结果
+  if (!verify.error) {
+    // 获取用户信息
+    const user = await findUserInfo({
+      username,
+      password: cryptoPassword(password),
+    });
+    // 判断是否查找到用户
+    if (user.length > 0) {
+      // 返回 用户信息以及token
+      ctx.body = {
+        status: 200,
+        message: "登录成功",
+        data: {
+          id: user[0].id,
+          username: user[0].username,
+          state: user[0].state,
+        },
+      };
+    } else {
+      // 获取信息失败
+      ctx.body = {
+        status: 0,
+        message: "获取信息失败,请检查用户名或者密码是否正确",
+      };
+    }
+  } else {
+    // 参数校验失败
+    ctx.body = {
+      status: 0,
+      message: "请输入正确的参数",
+    };
+  }
 };

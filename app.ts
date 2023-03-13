@@ -39,7 +39,7 @@ app.use((ctx, next) => {
 // 设置哪些接口不需要 token
 app.use(
   jwt({ secret: process.env.JWT_SECRET_KEY }).unless({
-    path: [/^\/public/, /^\/users\/register/, /^\/users\/login/],
+    path: [/^\/public/, /^\/v1\/users\/register/, /^\/v1\/users\/login/],
   })
 );
 

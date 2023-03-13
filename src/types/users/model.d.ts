@@ -24,5 +24,5 @@ interface FindUserInfoParams {
 interface FindUserInfoResult {
   id: number;
   username: string;
-  age: number;
+  state: number;
 }

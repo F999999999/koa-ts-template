@@ -30,7 +30,7 @@ export const findUserInfo: UserV1.FindUserInfo = async (
   conn
 ) => {
   return await query(
-    "SELECT id,username,password,state FROM sys_user WHERE username= ? AND password = ?",
+    "SELECT id,username,state FROM sys_user WHERE username= ? AND password = ?",
     [username, password],
     conn
   );
