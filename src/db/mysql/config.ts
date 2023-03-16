@@ -5,7 +5,7 @@ export default {
   // 端口
   port: process.env[`${process.env.NODE_ENV}_MYSQL_PORT`],
   // 用户名
-  username: process.env[`${process.env.NODE_ENV}_MYSQL_USERNAME`],
+  user: process.env[`${process.env.NODE_ENV}_MYSQL_USERNAME`],
   // 密码
   password: process.env[`${process.env.NODE_ENV}_MYSQL_PASSWORD`],
   // 数据库名称
