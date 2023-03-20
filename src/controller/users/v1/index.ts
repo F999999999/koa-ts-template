@@ -130,7 +130,7 @@ export const Info = async (ctx) => {
   if (user.length > 0) {
     // 返回 用户信息以及token
     ctx.body = resultJson.success({
-      msg: "登录成功",
+      msg: "获取信息成功",
       data: {
         id: user[0].id,
         username: user[0].username,

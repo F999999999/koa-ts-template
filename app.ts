@@ -11,10 +11,10 @@ import debugMobile from "debug";
 import dotenv from "dotenv";
 // 配置 process.env
 dotenv.config();
-import { loadRouters } from "./src/routes";
-import { refreshToken } from "./src/utils/jwt";
-import { initModels } from "./src/db/sequelize/models/init-models";
-import { sequelize } from "./src/db/sequelize";
+import { loadRouters } from "@/routes";
+import { refreshToken } from "@/utils/jwt";
+import { initModels } from "@/db/sequelize/models/init-models";
+import { sequelize } from "@/db/sequelize";
 
 export const app = new Koa();
 
