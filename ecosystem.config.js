@@ -1,11 +1,11 @@
 module.exports = {
   apps: [
     {
-      //pm2名字
+      // pm2名字
       name: "koa_serve",
-      //pm2运行脚本
+      // pm2运行脚本
       script: "bin/www.ts",
-      //环境变量
+      // 环境变量
       env: {
         NODE_ENV: "development",
       },
@@ -15,7 +15,7 @@ module.exports = {
     },
   ],
   deploy: {
-    // "production" 环境名称
+    // production 环境名称
     production: {
       // post-deploy action
       "post-deploy": "pm2 reload ecosystem.config.ts --env production",

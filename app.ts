@@ -4,16 +4,17 @@ import onerror from "koa-onerror";
 import body from "koa-body";
 import logger from "koa-logger";
 import koaStatic from "koa-static";
-import env from "dotenv";
 import jwt from "koa-jwt";
 import cors from "koa2-cors";
+import dotenv from "dotenv";
+// 配置 process.env
+dotenv.config();
 import { loadRouters } from "./src/routes";
 import { refreshToken } from "./src/utils/jwt";
+import { initModels } from "./src/db/sequelize/models/init-models";
+import { sequelize } from "./src/db/sequelize";
 
 export const app = new Koa();
-
-// 配置 process.env
-env.config();
 
 // 使用 cors 处理跨域
 app.use(cors());
@@ -70,6 +71,9 @@ app.use(body());
 app.use(json());
 app.use(logger());
 app.use(koaStatic(__dirname + "/public"));
+
+// 初始化sequelize模型到数据库
+initModels(sequelize);
 
 // 初始化自动加载路由
 loadRouters(app);

@@ -1,37 +1,29 @@
-import { query } from "@/db/mysql";
+import { sysUser } from "@/db/sequelize/models/sysUser";
+import { Op } from "sequelize";
 
 // 查询用户是否存在
-export const findUserByUserName: UserV1.FindUserByUserName = async (
-  { username },
-  conn
-) => {
-  return await query(
-    "SELECT id FROM sys_user WHERE username=?",
-    [username],
-    conn
-  );
+export const findUserByUserName = async ({ username }) => {
+  return await sysUser.findOne<sysUser>({
+    attributes: ["id"],
+    where: { username },
+    raw: true,
+  });
 };
 
 // 用户注册
-export const userRegister: UserV1.UserRegister = async (
-  { username, password, isState = 1 },
-  conn
-) => {
-  return await query(
-    "INSERT INTO sys_user(username, password,state) VALUES(?,?,?)",
-    [username, password, isState],
-    conn
-  );
+export const userRegister = async ({ username, password, state = 1 }) => {
+  return await sysUser.create({
+    username,
+    password,
+    state,
+  });
 };
 
 // 查询用户信息
-export const findUserInfo: UserV1.FindUserInfo = async (
-  { username, password },
-  conn
-) => {
-  return await query(
-    "SELECT id,username,state FROM sys_user WHERE username= ? AND password = ?",
-    [username, password],
-    conn
-  );
+export const findUserInfo = async ({ username, password }) => {
+  return await sysUser.findAll({
+    attributes: ["id", "username", "state"],
+    where: { [Op.and]: [{ username }, { password }] },
+    raw: true,
+  });
 };
