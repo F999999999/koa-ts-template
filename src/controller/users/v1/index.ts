@@ -4,7 +4,7 @@ import {
   findUserByUserName,
   userRegister,
   findUserInfo,
-} from "@/model/v1/users";
+} from "@/model/users/v1";
 import { resultJson } from "@/utils/resultJson";
 import { cryptoPassword } from "@/utils/crypto";
 

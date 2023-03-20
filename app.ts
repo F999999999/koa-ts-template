@@ -40,7 +40,7 @@ app.use((ctx, next) => {
 // 设置哪些接口不需要 token
 app.use(
   jwt({ secret: process.env.JWT_SECRET_KEY }).unless({
-    path: [/^\/public/, /^\/v1\/users\/register/, /^\/v1\/users\/login/],
+    path: [/^\/public/, /^\/users\/v1\/register/, /^\/users\/v1\/login/],
   })
 );
 
@@ -72,7 +72,7 @@ app.use(json());
 app.use(logger());
 app.use(koaStatic(__dirname + "/public"));
 
-// 初始化sequelize模型到数据库
+// 初始化sequelize模型
 initModels(sequelize);
 
 // 初始化自动加载路由

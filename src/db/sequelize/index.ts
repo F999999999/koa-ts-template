@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+import { ModelStatic, Sequelize } from "sequelize";
 import { options } from "./config";
 
 export const sequelize = new Sequelize(options);
@@ -15,3 +15,7 @@ sequelize
     console.log("数据库连接失败");
     throw err;
   });
+
+type ModelNames = keyof typeof sequelize.models;
+type Models = { [modelName in ModelNames]: ModelStatic<any> };
+export const models: Models = sequelize.models;
