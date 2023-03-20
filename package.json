@@ -3,16 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "set NODE_ENV=development&&ts-node-dev -r tsconfig-paths/register ./bin/www.ts",
-    "prod": "set NODE_ENV=production&&ts-node -r tsconfig-paths/register ./bin/www.ts",
-    "test": "set NODE_ENV=test&&ts-node-dev -r tsconfig-paths/register ./bin/www.ts",
-    "pm2": "set NODE_ENV=production&&pm2 start bin/www.ts",
+    "dev": "set NODE_ENV=development&&ts-node-dev -r tsconfig-paths/register app.ts",
+    "prod": "set NODE_ENV=production&&ts-node -r tsconfig-paths/register app.ts",
+    "test": "set NODE_ENV=test&&ts-node-dev -r tsconfig-paths/register app.ts",
+    "pm2": "set NODE_ENV=production&&pm2 start app.ts",
     "devmodel": "set NODE_ENV=development&&ts-node-dev -r tsconfig-paths/register -r dotenv/config src/utils/sequelizeAuto.ts",
     "prodmodel": "set NODE_ENV=production&&ts-node-dev -r tsconfig-paths/register -r dotenv/config  src/utils/sequelizeAuto.ts",
     "testmodel": "set NODE_ENV=test&&ts-node-dev -r tsconfig-paths/register -r dotenv/config  src/utils/sequelizeAuto.ts",
     "devinitdb": "set NODE_ENV=development&&ts-node-dev -r tsconfig-paths/register -r dotenv/config src/utils/initDb.ts",
     "prodinitdb": "set NODE_ENV=production&&ts-node-dev -r tsconfig-paths/register -r dotenv/config  src/utils/initDb.ts",
-    "testinitdb": "set NODE_ENV=test&&ts-node-dev -r tsconfig-paths/register -r dotenv/config  src/utils/initDb.ts"
+    "testinitdb": "set NODE_ENV=test&&ts-node-dev -r tsconfig-paths/register -r dotenv/config  src/utils/initDb.ts",
+    "build": "set NODE_ENV=production&&tsc"
   },
   "dependencies": {
     "debug": "^4.3.4",
@@ -30,6 +31,7 @@
     "koa2-cors": "^2.0.6",
     "mysql2": "^3.2.0",
     "require-directory": "^2.1.1",
+    "retry-as-promised": "^7.0.4",
     "sequelize": "^6.29.3"
   },
   "devDependencies": {
