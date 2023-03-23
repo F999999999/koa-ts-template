@@ -7,6 +7,7 @@ import {
 } from "@/model/users/v1";
 import { resultJson } from "@/utils/resultJson";
 import { cryptoPassword } from "@/utils/crypto";
+import { sequelize } from "@/db/sequelize";
 
 // 注册
 export const register = async (ctx) => {
@@ -22,15 +23,13 @@ export const register = async (ctx) => {
   // 判断校验结果
   if (verify.error) {
     // 参数校验失败
-    return (ctx.body = resultJson.fail({
-      msg: "请输入正确的参数",
-    }));
+    return (ctx.body = resultJson.fail({ msg: "请输入正确的参数" }));
   }
 
   // 检测用户是否已注册
   const user = await findUserByUserName({ username });
   // 如果用户已注册 终止注册操作并返回
-  if (user.id) {
+  if (user?.username) {
     return (ctx.body = resultJson.fail({
       msg: "您已注册，无需重复注册",
       errorCode: -1,
@@ -38,16 +37,22 @@ export const register = async (ctx) => {
   }
 
   try {
-    // 执行注册操作
-    await userRegister({
-      username,
-      password: cryptoPassword(password),
+    const user = await sequelize.transaction(async (t) => {
+      // 执行注册操作
+      return await userRegister(
+        {
+          username,
+          password: cryptoPassword(password),
+        },
+        t
+      );
     });
-    ctx.body = resultJson.success({ msg: "注册成功" });
+    ctx.body = resultJson.success({
+      msg: "注册成功",
+      data: { id: user.id, username: user.username },
+    });
   } catch (e) {
-    ctx.body = resultJson.fail({
-      msg: "注册失败",
-    });
+    ctx.body = resultJson.fail({ msg: "注册失败" });
   }
 };
 
@@ -64,9 +69,7 @@ export const login = async (ctx) => {
   // 判断校验结果
   if (verify.error) {
     // 参数校验失败
-    return (ctx.body = resultJson.fail({
-      msg: "请输入正确的参数",
-    }));
+    return (ctx.body = resultJson.fail({ msg: "请输入正确的参数" }));
   }
 
   // 获取用户信息
@@ -116,9 +119,7 @@ export const Info = async (ctx) => {
   // 判断校验结果
   if (verify.error) {
     // 参数校验失败
-    return (ctx.body = resultJson.fail({
-      msg: "请输入正确的参数",
-    }));
+    return (ctx.body = resultJson.fail({ msg: "请输入正确的参数" }));
   }
 
   // 获取用户信息
