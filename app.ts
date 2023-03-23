@@ -39,12 +39,24 @@ app.use((ctx, next) => {
     }
   });
 });
-// 设置哪些接口不需要 token
+
+// 设置无需鉴权的路由
 app.use(
   jwt({ secret: process.env.JWT_SECRET_KEY }).unless({
     path: [/^\/public/, /^\/users\/v1\/register/, /^\/users\/v1\/login/],
   })
 );
+
+app.use(body());
+app.use(json());
+app.use(logger());
+app.use(koaStatic(__dirname + "/public"));
+
+// 初始化sequelize模型
+initModels(sequelize);
+
+// 初始化自动加载路由
+loadRouters(app);
 
 // 刷新 token 有效期
 app.use(async (ctx, next) => {
@@ -68,17 +80,6 @@ app.use(async (ctx, next) => {
     }
   }
 });
-
-app.use(body());
-app.use(json());
-app.use(logger());
-app.use(koaStatic(__dirname + "/public"));
-
-// 初始化sequelize模型
-initModels(sequelize);
-
-// 初始化自动加载路由
-loadRouters(app);
 
 // 日志记录
 app.use(async (ctx, next) => {
