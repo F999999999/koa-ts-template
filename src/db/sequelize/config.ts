@@ -2,16 +2,18 @@ import { Options } from "sequelize";
 
 // mysql 数据库连接配置
 export const config = {
-  // 主机地址
-  host: process.env[`${process.env.NODE_ENV}_MYSQL_HOST`],
-  // 端口
-  port: process.env[`${process.env.NODE_ENV}_MYSQL_PORT`],
-  // 用户名
-  username: process.env[`${process.env.NODE_ENV}_MYSQL_USERNAME`],
-  // 密码
-  password: process.env[`${process.env.NODE_ENV}_MYSQL_PASSWORD`],
-  // 数据库名称
-  database: process.env[`${process.env.NODE_ENV}_MYSQL_DATABASE`],
+  mysql: {
+    // 主机地址
+    host: process.env[`${process.env.NODE_ENV}_MYSQL_HOST`],
+    // 端口
+    port: process.env[`${process.env.NODE_ENV}_MYSQL_PORT`],
+    // 用户名
+    username: process.env[`${process.env.NODE_ENV}_MYSQL_USERNAME`],
+    // 密码
+    password: process.env[`${process.env.NODE_ENV}_MYSQL_PASSWORD`],
+    // 数据库名称
+    database: process.env[`${process.env.NODE_ENV}_MYSQL_DATABASE`],
+  },
 };
 
 // sequelize 配置选项
@@ -19,15 +21,15 @@ export const options: Options = {
   // 数据库类型
   dialect: "mysql",
   // 数据库地址
-  host: config.host,
+  host: config.mysql.host,
   // 数据库端口
-  port: +config.port || 3306,
+  port: +config.mysql.port || 3306,
   // 用户名
-  username: config.username,
+  username: config.mysql.username,
   // 密码
-  password: config.password,
+  password: config.mysql.password,
   // 数据库名称
-  database: config.database,
+  database: config.mysql.database,
   // 时区
   timezone: "+08:00",
   // 执行过程打印sql的日志参数
