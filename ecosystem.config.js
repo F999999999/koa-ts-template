@@ -4,7 +4,7 @@ module.exports = {
       // pm2名字
       name: "koa_serve",
       // pm2运行脚本
-      script: "app.ts",
+      script: "main.ts",
       // 环境变量
       env: {
         NODE_ENV: "development",
