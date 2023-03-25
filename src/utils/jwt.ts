@@ -1,10 +1,17 @@
 // 引入 jwt
 import jwt from "jsonwebtoken";
 
+// 创建token
+export const createToken = (
+  payload: string | object | Buffer,
+  expiresIn: string | number = 60 * 60 * 24 * 7
+) => {
+  return jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn });
+};
 // 刷新token有效期
 export const refreshToken = async (
   token: string,
-  validityTime = 60 * 60 * 24 * 7
+  expiresIn: number = 60 * 60 * 24 * 7
 ) => {
   try {
     // 校验并解密 token
@@ -25,9 +32,7 @@ export const refreshToken = async (
         delete decode.exp; // jwt的过期时间 这个过期时间必须要大于签发时间
 
         // 生成新的 token
-        token = jwt.sign(decode, process.env.JWT_SECRET_KEY, {
-          expiresIn: validityTime,
-        });
+        token = createToken(decode, expiresIn);
       }
     }
     return { data: jwt.decode(token), token };

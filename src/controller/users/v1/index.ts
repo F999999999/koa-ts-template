@@ -1,5 +1,4 @@
 import joi from "joi";
-import jwt from "jsonwebtoken";
 import {
   findUserByUserName,
   userRegister,
@@ -7,6 +6,7 @@ import {
 } from "@/model/users/v1";
 import { resultJson } from "@/utils/resultJson";
 import { cryptoPassword } from "@/utils/crypto";
+import { createToken } from "@/utils/jwt";
 import { sequelize } from "@/db/sequelize";
 
 // 注册
@@ -80,14 +80,7 @@ export const login = async (ctx) => {
   // 判断是否查找到用户
   if (user.length > 0) {
     // 生成 token
-    const token = jwt.sign(
-      {
-        id: user[0].id,
-        username,
-      },
-      process.env.JWT_SECRET_KEY,
-      { expiresIn: 60 * 60 * 24 * 7 }
-    );
+    const token = createToken({ id: user[0].id, username });
     // 返回 用户信息以及token
     ctx.body = resultJson.success({
       msg: "登录成功",
