@@ -1,23 +1,8 @@
 import { Options } from "sequelize";
-
-// mysql 数据库连接配置
-export const config = {
-  mysql: {
-    // 主机地址
-    host: process.env[`${process.env.NODE_ENV}_MYSQL_HOST`],
-    // 端口
-    port: process.env[`${process.env.NODE_ENV}_MYSQL_PORT`],
-    // 用户名
-    username: process.env[`${process.env.NODE_ENV}_MYSQL_USERNAME`],
-    // 密码
-    password: process.env[`${process.env.NODE_ENV}_MYSQL_PASSWORD`],
-    // 数据库名称
-    database: process.env[`${process.env.NODE_ENV}_MYSQL_DATABASE`],
-  },
-};
+import config from "@/config";
 
 // sequelize 配置选项
-export const options: Options = {
+const sequelizeOptions: Options = {
   // 数据库类型
   dialect: "mysql",
   // 数据库地址
@@ -59,3 +44,4 @@ export const options: Options = {
     freezeTableName: true,
   },
 };
+export default { sequelizeOptions };

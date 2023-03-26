@@ -1,7 +1,7 @@
 import { ModelStatic, Sequelize } from "sequelize";
-import { options } from "./config";
+import config from "@/config";
 
-export const sequelize = new Sequelize(options);
+export const sequelize = new Sequelize(config.sequelizeOptions);
 
 // 测试数据库链接
 sequelize

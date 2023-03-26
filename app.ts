@@ -16,7 +16,7 @@ import { sequelize } from "@/db/sequelize";
 
 export const app = new Koa();
 
-// 使用 cors 处理跨域
+// 处理跨域请求
 app.use(cors());
 
 // 错误处理
@@ -45,9 +45,16 @@ app.use(
   })
 );
 
+// 用于解析请求体
 app.use(body());
+
+// 格式化json格式数据
 app.use(json());
+
+// 请求记录器
 app.use(logger());
+
+// 设置静态目录
 app.use(koaStatic(__dirname + "/public"));
 
 // 初始化sequelize模型
