@@ -11,8 +11,8 @@ import dotenv from "dotenv";
 dotenv.config();
 import { loadRouters } from "@/routes";
 import { refreshToken } from "@/utils/jwt";
-import { initModels } from "@/db/sequelize/models/init-models";
-import { sequelize } from "@/db/sequelize";
+import { initModels } from "@/db/models/init-models";
+import { sequelize } from "@/db";
 
 export const app = new Koa();
 

@@ -1,5 +1,5 @@
 import { SequelizeAuto } from "sequelize-auto";
-import { sequelize } from "@/db/sequelize";
+import { sequelize } from "@/db";
 
 export const sequelizeAuto = new SequelizeAuto(sequelize, null, null, {
   // 文件输出路径

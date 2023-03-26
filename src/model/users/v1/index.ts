@@ -1,6 +1,6 @@
 import { Op, Transaction } from "sequelize";
-import { models } from "@/db/sequelize";
-import { sysUser } from "@/db/sequelize/models/sysUser";
+import { models } from "@/db";
+import { sysUser } from "@/db/models/sysUser";
 
 // 查询用户是否存在
 export const findUserByUserName = async ({ username }) => {

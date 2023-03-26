@@ -7,7 +7,7 @@ import {
 import { resultJson } from "@/utils/resultJson";
 import { cryptoPassword } from "@/utils/crypto";
 import { createToken } from "@/utils/jwt";
-import { sequelize } from "@/db/sequelize";
+import { sequelize } from "@/db";
 
 // 注册
 export const register = async (ctx) => {
