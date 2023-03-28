@@ -1,4 +1,5 @@
-const mysql = {
+// mysql 数据库配置
+export const mysqlConfig = {
   // 主机地址
   host: process.env[`${process.env.NODE_ENV}_MYSQL_HOST`],
   // 端口
@@ -10,5 +11,3 @@ const mysql = {
   // 数据库名称
   database: process.env[`${process.env.NODE_ENV}_MYSQL_DATABASE`],
 };
-
-export default { mysql };

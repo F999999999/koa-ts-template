@@ -1,20 +1,20 @@
 import { Options } from "sequelize";
-import config from "@/config";
+import { mysqlConfig } from "@/config";
 
 // sequelize 配置选项
-const sequelizeOptions: Options = {
+export const mysqlSequelizeOptions: Options = {
   // 数据库类型
   dialect: "mysql",
   // 数据库地址
-  host: config.mysql.host,
+  host: mysqlConfig.host,
   // 数据库端口
-  port: +config.mysql.port || 3306,
+  port: +mysqlConfig.port || 3306,
   // 用户名
-  username: config.mysql.username,
+  username: mysqlConfig.username,
   // 密码
-  password: config.mysql.password,
+  password: mysqlConfig.password,
   // 数据库名称
-  database: config.mysql.database,
+  database: mysqlConfig.database,
   // 时区
   timezone: "+08:00",
   // 执行过程打印sql的日志参数
@@ -44,4 +44,3 @@ const sequelizeOptions: Options = {
     freezeTableName: true,
   },
 };
-export default { sequelizeOptions };

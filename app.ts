@@ -12,7 +12,7 @@ dotenv.config();
 import { loadRouters } from "@/routes";
 import { refreshToken } from "@/utils/jwt";
 import { initModels } from "@/db/models/init-models";
-import { sequelize } from "@/db";
+import { mysqlSequelize } from "@/db";
 
 export const app = new Koa();
 
@@ -58,7 +58,7 @@ app.use(logger());
 app.use(koaStatic(__dirname + "/public"));
 
 // 初始化sequelize模型
-initModels(sequelize);
+initModels(mysqlSequelize);
 
 // 初始化自动加载路由
 loadRouters(app);

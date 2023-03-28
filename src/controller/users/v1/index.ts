@@ -7,7 +7,7 @@ import {
 import { resultJson } from "@/utils/resultJson";
 import { cryptoPassword } from "@/utils/crypto";
 import { createToken } from "@/utils/jwt";
-import { sequelize } from "@/db";
+import { mysqlSequelize } from "@/db";
 
 // 注册
 export const register = async (ctx) => {
@@ -37,7 +37,7 @@ export const register = async (ctx) => {
   }
 
   try {
-    const user = await sequelize.transaction(async (t) => {
+    const user = await mysqlSequelize.transaction(async (t) => {
       // 执行注册操作
       return await userRegister(
         {

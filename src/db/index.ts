@@ -1,21 +1,24 @@
 import { ModelStatic, Sequelize } from "sequelize";
-import config from "@/config";
+import { mysqlSequelizeOptions } from "@/config";
 
-export const sequelize = new Sequelize(config.sequelizeOptions);
+export const mysqlSequelize = new Sequelize(mysqlSequelizeOptions);
 
 // 测试数据库链接
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("数据库连接成功");
-  })
-  .catch((err: any) => {
-    // 数据库连接失败时打印输出
-    console.error(err);
-    console.log("数据库连接失败");
-    throw err;
-  });
+const testSequelize = (sequelize: Sequelize) => {
+  sequelize
+    .authenticate()
+    .then(() => {
+      console.log("数据库连接成功");
+    })
+    .catch((err: any) => {
+      console.log("数据库连接失败");
+      throw err;
+    });
+};
+testSequelize(mysqlSequelize);
 
-type ModelNames = keyof typeof sequelize.models;
-type Models = { [modelName in ModelNames]: ModelStatic<any> };
-export const models: Models = sequelize.models;
+type MysqlModel = {
+  [modelName in keyof typeof mysqlSequelize.models]: ModelStatic<any>;
+};
+
+export const models: MysqlModel = mysqlSequelize.models;
