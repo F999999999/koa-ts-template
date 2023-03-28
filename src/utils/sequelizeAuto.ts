@@ -1,7 +1,7 @@
 import { SequelizeAuto } from "sequelize-auto";
-import { sequelize } from "@/db";
+import { mysqlSequelize } from "@/db";
 
-export const sequelizeAuto = new SequelizeAuto(sequelize, null, null, {
+export const sequelizeAuto = new SequelizeAuto(mysqlSequelize, null, null, {
   // 文件输出路径
   directory: "src/db/sequelize/models",
   // 模型输出语言 es5、es6、esm、ts
