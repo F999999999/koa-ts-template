@@ -1,6 +1,6 @@
-import supertest from "supertest";
-import { app } from "../../app";
-import { createToken } from "@/utils/jwt";
+import supertest from 'supertest';
+import { app } from '../../app';
+import { createToken } from '@/utils/jwt';
 
 export const requestAgent = new Proxy(supertest(app.callback()), {
   get:
@@ -8,9 +8,9 @@ export const requestAgent = new Proxy(supertest(app.callback()), {
     (...args) =>
       target[name](...args).set({
         Authorization: `Bearer ${createToken(
-          { id: 1, username: "jest test token" },
+          { id: 1, username: 'jest test token' },
           300
         )}`,
-        Accept: "application/json",
+        Accept: 'application/json',
       }),
 });

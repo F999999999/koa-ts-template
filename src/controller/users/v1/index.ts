@@ -1,13 +1,13 @@
-import joi from "joi";
+import joi from 'joi';
 import {
   findUserByUserName,
   userRegister,
   findUserInfo,
-} from "@/model/users/v1";
-import { resultJson } from "@/utils/resultJson";
-import { cryptoPassword } from "@/utils/crypto";
-import { createToken } from "@/utils/jwt";
-import { mysqlSequelize } from "@/db";
+} from '@/model/users/v1';
+import { resultJson } from '@/utils/resultJson';
+import { cryptoPassword } from '@/utils/crypto';
+import { createToken } from '@/utils/jwt';
+import { mysqlSequelize } from '@/db';
 
 // 注册
 export const register = async (ctx) => {
@@ -23,7 +23,7 @@ export const register = async (ctx) => {
   // 判断校验结果
   if (verify.error) {
     // 参数校验失败
-    return (ctx.body = resultJson.fail({ msg: "请输入正确的参数" }));
+    return (ctx.body = resultJson.fail({ msg: '请输入正确的参数' }));
   }
 
   // 检测用户是否已注册
@@ -31,7 +31,7 @@ export const register = async (ctx) => {
   // 如果用户已注册 终止注册操作并返回
   if (user?.username) {
     return (ctx.body = resultJson.fail({
-      msg: "您已注册，无需重复注册",
+      msg: '您已注册，无需重复注册',
       errorCode: -1,
     }));
   }
@@ -48,11 +48,11 @@ export const register = async (ctx) => {
       );
     });
     ctx.body = resultJson.success({
-      msg: "注册成功",
+      msg: '注册成功',
       data: { id: user.id, username: user.username },
     });
   } catch (e) {
-    ctx.body = resultJson.fail({ msg: "注册失败" });
+    ctx.body = resultJson.fail({ msg: '注册失败' });
   }
 };
 
@@ -69,7 +69,7 @@ export const login = async (ctx) => {
   // 判断校验结果
   if (verify.error) {
     // 参数校验失败
-    return (ctx.body = resultJson.fail({ msg: "请输入正确的参数" }));
+    return (ctx.body = resultJson.fail({ msg: '请输入正确的参数' }));
   }
 
   // 获取用户信息
@@ -83,7 +83,7 @@ export const login = async (ctx) => {
     const token = createToken({ id: user[0].id, username });
     // 返回 用户信息以及token
     ctx.body = resultJson.success({
-      msg: "登录成功",
+      msg: '登录成功',
       data: {
         id: user[0].id,
         username: user[0].username,
@@ -93,7 +93,7 @@ export const login = async (ctx) => {
   } else {
     // 登录失败
     ctx.body = resultJson.fail({
-      msg: "登录失败,请检查用户名或者密码是否正确",
+      msg: '登录失败,请检查用户名或者密码是否正确',
       errorCode: -1,
     });
   }
@@ -112,7 +112,7 @@ export const Info = async (ctx) => {
   // 判断校验结果
   if (verify.error) {
     // 参数校验失败
-    return (ctx.body = resultJson.fail({ msg: "请输入正确的参数" }));
+    return (ctx.body = resultJson.fail({ msg: '请输入正确的参数' }));
   }
 
   // 获取用户信息
@@ -124,7 +124,7 @@ export const Info = async (ctx) => {
   if (user.length > 0) {
     // 返回 用户信息以及token
     ctx.body = resultJson.success({
-      msg: "获取信息成功",
+      msg: '获取信息成功',
       data: {
         id: user[0].id,
         username: user[0].username,
@@ -134,7 +134,7 @@ export const Info = async (ctx) => {
   } else {
     // 获取信息失败
     ctx.body = resultJson.fail({
-      msg: "获取信息失败,请检查用户名或者密码是否正确",
+      msg: '获取信息失败,请检查用户名或者密码是否正确',
       errorCode: -1,
     });
   }

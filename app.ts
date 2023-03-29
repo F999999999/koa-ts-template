@@ -1,19 +1,19 @@
-import Koa from "koa";
-import json from "koa-json";
-import onerror from "koa-onerror";
-import body from "koa-body";
-import logger from "koa-logger";
-import koaStatic from "koa-static";
-import jwt from "koa-jwt";
-import cors from "koa2-cors";
-import dotenv from "dotenv";
+import Koa from 'koa';
+import json from 'koa-json';
+import onerror from 'koa-onerror';
+import body from 'koa-body';
+import logger from 'koa-logger';
+import koaStatic from 'koa-static';
+import jwt from 'koa-jwt';
+import cors from 'koa2-cors';
+import dotenv from 'dotenv';
 // 配置 process.env
 dotenv.config();
-import { loadRouters } from "@/routes";
-import { refreshToken } from "@/utils/jwt";
-import { initModels } from "@/db/models/init-models";
-import { mysqlSequelize } from "@/db";
-import { accessLogMiddleware } from "@/middleware/accessLogMiddleware";
+import { loadRouters } from '@/routes';
+import { refreshToken } from '@/utils/jwt';
+import { initModels } from '@/db/models/init-models';
+import { mysqlSequelize } from '@/db';
+import { accessLogMiddleware } from '@/middleware/accessLogMiddleware';
 
 export const app = new Koa();
 
@@ -31,7 +31,7 @@ app.use((ctx, next) => {
       ctx.status = 401;
       ctx.body = {
         status: 401,
-        message: "没有访问权限",
+        message: '没有访问权限',
       };
     } else {
       throw err;
@@ -56,7 +56,7 @@ app.use(json());
 app.use(logger());
 
 // 设置静态目录
-app.use(koaStatic(__dirname + "/public"));
+app.use(koaStatic(__dirname + '/public'));
 
 // 记录日志
 app.use(accessLogMiddleware);
@@ -82,9 +82,9 @@ app.use(async (ctx, next) => {
       const newToken = await refreshToken(token);
       if (!newToken.error && newToken.token !== token) {
         // 配置允许访问的自定义头信息
-        ctx.set("Access-Control-Expose-Headers", "token");
+        ctx.set('Access-Control-Expose-Headers', 'token');
         // 保存 token 到 headers
-        ctx.set("token", newToken.token);
+        ctx.set('token', newToken.token);
       }
     }
   }
@@ -99,6 +99,6 @@ app.use(async (ctx, next) => {
 });
 
 // 错误处理
-app.on("error", (err, ctx) => {
-  console.error("server error", err, ctx);
+app.on('error', (err, ctx) => {
+  console.error('server error', err, ctx);
 });

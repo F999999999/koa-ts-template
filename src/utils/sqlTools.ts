@@ -3,7 +3,7 @@ type DisposeFn<T> = (data: T[]) => { sql: string; payload: T[] };
 // 生成批量插入SQL语句
 export const sqlBatchInsert = (
   tableName: string,
-  data: any[] = [],
+  data: never[] = [],
   dispose: object = {}
 ) => {
   if (data.length === 0) return { sql: [], payload: [[]] };
@@ -25,11 +25,11 @@ export const sqlBatchInsert = (
             (p, _c, i, a) =>
               p +
               (i < a.length - 1
-                ? "?,"
+                ? '?,'
                 : index < arr.length - 1
-                ? "?),"
-                : "?);"),
-            "("
+                ? '?),'
+                : '?);'),
+            '('
           )
         );
       }, `INSERT INTO ${tableName}(${Object.keys(data[0]).join()}) VALUES `),

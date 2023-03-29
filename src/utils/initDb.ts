@@ -1,4 +1,4 @@
-import { initModels } from "@/db/models/init-models";
-import { mysqlSequelize } from "@/db";
+import { initModels } from '@/db/models/init-models';
+import { mysqlSequelize } from '@/db';
 
-Object.values(initModels(mysqlSequelize)).forEach((model) => model["sync"]());
+Object.values(initModels(mysqlSequelize)).forEach((model) => model['sync']());

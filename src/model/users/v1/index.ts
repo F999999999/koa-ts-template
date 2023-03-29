@@ -1,11 +1,11 @@
-import { Op, Transaction } from "sequelize";
-import { models } from "@/db";
-import { sysUser } from "@/db/models/sysUser";
+import { Op, Transaction } from 'sequelize';
+import { models } from '@/db';
+import { sysUser } from '@/db/models/sysUser';
 
 // 查询用户是否存在
 export const findUserByUserName = async ({ username }) => {
   return await models.sysUser.findOne<sysUser>({
-    attributes: ["username"],
+    attributes: ['username'],
     where: { username },
     raw: true,
   });
@@ -29,7 +29,7 @@ export const userRegister = async (
 // 查询用户信息
 export const findUserInfo = async ({ username, password }) => {
   return await models.sysUser.findAll<sysUser>({
-    attributes: ["id", "username", "state"],
+    attributes: ['id', 'username', 'state'],
     where: { [Op.and]: [{ username }, { password }] },
     raw: true,
   });

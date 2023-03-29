@@ -1,5 +1,5 @@
 // 引入 jwt
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 // 创建token
 export const createToken = (
@@ -16,7 +16,7 @@ export const refreshToken = async (
   try {
     // 校验并解密 token
     const decode = await jwt.verify(token, process.env.JWT_SECRET_KEY);
-    if (typeof decode !== "string") {
+    if (typeof decode !== 'string') {
       // token 有效期小于有效期的1/2时重新生成新的 token
       if (
         decode.exp - new Date().getTime() / 1000 <
@@ -37,6 +37,6 @@ export const refreshToken = async (
     }
     return { data: jwt.decode(token), token };
   } catch (err) {
-    return { error: { ...err }, data: jwt.decode(token), token: "" };
+    return { error: { ...err }, data: jwt.decode(token), token: '' };
   }
 };

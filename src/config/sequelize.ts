@@ -1,10 +1,10 @@
-import { Options } from "sequelize";
-import { mysqlConfig } from "@/config";
+import { Options } from 'sequelize';
+import { mysqlConfig } from '@/config';
 
 // sequelize 配置选项
 export const mysqlSequelizeOptions: Options = {
   // 数据库类型
-  dialect: "mysql",
+  dialect: 'mysql',
   // 数据库地址
   host: mysqlConfig.host,
   // 数据库端口
@@ -16,14 +16,14 @@ export const mysqlSequelizeOptions: Options = {
   // 数据库名称
   database: mysqlConfig.database,
   // 时区
-  timezone: "+08:00",
+  timezone: '+08:00',
   // 执行过程打印sql的日志参数
   // logging: console.log,                  // 默认值,显示日志函数调用的第一个参数
   // logging: (...log) => console.log(log), // 显示所有日志函数调用参数
   // logging: false,                        // 禁用日志记录
   // logging: log => logger.debug(log),     // 使用自定义记录器(例如Winston 或 Bunyan),显示第一个参数
   // logging: logger.debug.bind(logger)     // 使用自定义记录器的另一种方法,显示所有消息
-  logging: (log) => console.log("dbLog:", log),
+  logging: (log) => console.log('dbLog:', log),
   // 连接池配置
   pool: {
     // 连接池最小连接数量

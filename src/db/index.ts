@@ -1,5 +1,5 @@
-import { ModelStatic, Sequelize } from "sequelize";
-import { mysqlSequelizeOptions } from "@/config";
+import { ModelStatic, Sequelize } from 'sequelize';
+import { mysqlSequelizeOptions } from '@/config';
 
 export const mysqlSequelize = new Sequelize(mysqlSequelizeOptions);
 
@@ -8,10 +8,10 @@ const testSequelize = (sequelize: Sequelize) => {
   sequelize
     .authenticate()
     .then(() => {
-      console.log("数据库连接成功");
+      console.log('数据库连接成功');
     })
-    .catch((err: any) => {
-      console.log("数据库连接失败");
+    .catch((err) => {
+      console.log('数据库连接失败');
       throw err;
     });
 };
