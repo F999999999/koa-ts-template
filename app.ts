@@ -13,6 +13,7 @@ import { loadRouters } from "@/routes";
 import { refreshToken } from "@/utils/jwt";
 import { initModels } from "@/db/models/init-models";
 import { mysqlSequelize } from "@/db";
+import { accessLogMiddleware } from "@/middleware/accessLogMiddleware";
 
 export const app = new Koa();
 
@@ -56,6 +57,9 @@ app.use(logger());
 
 // 设置静态目录
 app.use(koaStatic(__dirname + "/public"));
+
+// 记录日志
+app.use(accessLogMiddleware);
 
 // 初始化sequelize模型
 initModels(mysqlSequelize);

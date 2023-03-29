@@ -29,6 +29,7 @@
     "koa-router": "^12.0.0",
     "koa-static": "^5.0.0",
     "koa2-cors": "^2.0.6",
+    "log4js": "^6.9.1",
     "mysql2": "^3.2.0",
     "require-directory": "^2.1.1",
     "retry-as-promised": "^7.0.4",
