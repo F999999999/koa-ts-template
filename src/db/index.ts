@@ -21,4 +21,4 @@ type MysqlModel = {
   [modelName in keyof typeof mysqlSequelize.models]: ModelStatic<any>;
 };
 
-export const models: MysqlModel = mysqlSequelize.models;
+export const mysql: MysqlModel = mysqlSequelize.models;
