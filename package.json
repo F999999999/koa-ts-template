@@ -15,17 +15,6 @@
     "testinitdb": "set NODE_ENV=test&&ts-node-dev -r tsconfig-paths/register -r dotenv/config  src/utils/initDb.ts",
     "build": "set NODE_ENV=production&&tsc"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "eslint --fix",
-      "git add"
-    ]
-  },
   "dependencies": {
     "debug": "^4.3.4",
     "dotenv": "^16.0.1",

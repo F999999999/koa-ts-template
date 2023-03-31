@@ -25,7 +25,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "exclude": ["node_modules", "dist", "public"],
+  "include": ["app.ts", "main.ts", "src/**/*", "jest.config.ts"],
+  "exclude": ["node_modules", "dist", "public", "**/*.test.*"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   },
