@@ -2,7 +2,7 @@ import { AutoOptions } from 'sequelize-auto';
 
 export const mysqlSequelizeAutoOptions: AutoOptions = {
   // 文件输出路径
-  directory: 'src/db/mysql/models',
+  directory: 'src/db/models/mysql',
   // 模型输出语言 es5、es6、esm、ts
   lang: 'ts',
   // convert snake_case column names to camelCase field names: user_id -> userId

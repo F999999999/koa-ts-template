@@ -11,7 +11,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { loadRouters } from '@/routes';
 import { refreshToken } from '@/utils/jwt';
-import { initModels } from '@/db/models/init-models';
+import { initModels } from '@/db/models/mysql/init-models';
 import { mysqlSequelize } from '@/db';
 import { accessLogMiddleware } from '@/middleware/accessLogMiddleware';
 
