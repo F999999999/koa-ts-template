@@ -1,12 +1,15 @@
-type DisposeFn<T> = (data: T[]) => { sql: string; payload: T[] };
+type DisposeFn<T> = (data: T[]) => {
+  sql: string;
+  payload: (keyof typeof data)[];
+};
 
 // 生成批量插入SQL语句
-export const sqlBatchInsert = (
+export function sqlBatchInsert<T>(
   tableName: string,
-  data: never[] = [],
-  dispose: object = {}
-) => {
-  if (data.length === 0) return { sql: [], payload: [[]] };
+  data?: T[],
+  dispose?: object
+) {
+  if (data?.length === 0) return { sql: [], payload: [[]] };
   // SQL拼接处理
   const disposeFn: DisposeFn<keyof typeof data> = (data) => {
     const payload = [];
@@ -37,7 +40,7 @@ export const sqlBatchInsert = (
     };
   };
   // 拼接结果
-  const result: { sql: string[]; payload: (keyof typeof data)[][] } = {
+  const result: { sql: string[]; payload: T[][] } = {
     sql: [],
     payload: [],
   };
@@ -46,10 +49,13 @@ export const sqlBatchInsert = (
   // 生成插入语句
   for (let i = 0; i < data.length / maxSqlLength; i++) {
     const { sql, payload } = disposeFn(
-      data.slice(i * maxSqlLength, (i + 1) * maxSqlLength)
+      data.slice(
+        i * maxSqlLength,
+        (i + 1) * maxSqlLength
+      ) as unknown as (keyof typeof data)[]
     );
     result.sql.push(sql);
-    result.payload.push(payload);
+    result.payload.push(payload as unknown as T[]);
   }
   return result;
-};
+}
