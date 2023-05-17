@@ -1,4 +1,5 @@
 import { AutoOptions } from 'sequelize-auto';
+import { mysqlSequelizeOptions } from '@/config/sequelize';
 
 export const mysqlSequelizeAutoOptions: AutoOptions = {
   // 文件输出路径
@@ -18,4 +19,6 @@ export const mysqlSequelizeAutoOptions: AutoOptions = {
   noAlias: true,
   // 是否禁止生成 init-models 文件
   noInitModels: false,
+  // 附加到 define 的 options 中的属性
+  additional: mysqlSequelizeOptions.define,
 };
