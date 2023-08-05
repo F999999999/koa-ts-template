@@ -11,9 +11,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { loadRouters } from '@/routes';
 import { refreshToken } from '@/utils/jwt';
-import { initModels } from '@/db/models/mysql/init-models';
-import { mysqlSequelize } from '@/db';
+import { loadMysqlModels } from '@/db/initDbModels';
 import { accessLogMiddleware } from '@/middleware/accessLogMiddleware';
+import { successLogMiddleware } from '@/middleware/successLogMiddleware';
+import { errorLogMiddleware } from '@/middleware/errorLogMiddleware';
 
 export const app = new Koa();
 
@@ -43,7 +44,7 @@ app.use((ctx, next) => {
 app.use(
   jwt({ secret: process.env.JWT_SECRET_KEY }).unless({
     path: [/^\/public/, /^\/users\/v1\/register/, /^\/users\/v1\/login/],
-  })
+  }),
 );
 
 // 用于解析请求体
@@ -62,7 +63,7 @@ app.use(koaStatic(__dirname + '/public'));
 app.use(accessLogMiddleware);
 
 // 初始化sequelize模型
-initModels(mysqlSequelize);
+loadMysqlModels();
 
 // 初始化自动加载路由
 loadRouters(app);
@@ -96,6 +97,12 @@ app.use(async (ctx, next) => {
   await next();
   const ms = new Date().getTime() - start;
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
+  // 记录接口日志
+  if (ctx.body?.error_code !== undefined) {
+    successLogMiddleware(ctx.request.url, ctx.body.msg);
+  } else {
+    errorLogMiddleware(ctx.request.url, JSON.stringify(ctx.body.data));
+  }
 });
 
 // 错误处理

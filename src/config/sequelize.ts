@@ -1,5 +1,6 @@
 import { Options } from 'sequelize';
-import { mysqlConfig } from '@/config';
+import { mysqlConfig } from '@/config/db';
+import { dbLogMiddleware } from '@/middleware/dbLogMiddleware';
 
 // sequelize 配置选项
 export const mysqlSequelizeOptions: Options = {
@@ -23,7 +24,10 @@ export const mysqlSequelizeOptions: Options = {
   // logging: false,                        // 禁用日志记录
   // logging: log => logger.debug(log),     // 使用自定义记录器(例如Winston 或 Bunyan),显示第一个参数
   // logging: logger.debug.bind(logger)     // 使用自定义记录器的另一种方法,显示所有消息
-  logging: (log) => console.log('dbLog:', log),
+  logging: (log) =>
+    process.env.NODE_ENV === 'development'
+      ? console.log('mysqlDbLog:', log)
+      : dbLogMiddleware(log, 'mysql'),
   // 连接池配置
   pool: {
     // 连接池最小连接数量

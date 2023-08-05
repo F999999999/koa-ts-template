@@ -55,6 +55,8 @@ export class sysUser extends Model<sysUserAttributes, sysUserCreationAttributes>
     tableName: 'sys_user',
     timestamps: true,
     paranoid: true,
+    underscored: true,
+    freezeTableName: true,
     indexes: [
       {
         name: "PRIMARY",

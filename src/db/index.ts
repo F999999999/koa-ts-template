@@ -1,5 +1,5 @@
 import { ModelStatic, Sequelize } from 'sequelize';
-import { mysqlSequelizeOptions } from '@/config';
+import { mysqlSequelizeOptions } from '@/config/sequelize';
 
 export const mysqlSequelize = new Sequelize(mysqlSequelizeOptions);
 

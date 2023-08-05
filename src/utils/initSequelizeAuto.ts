@@ -1,15 +1,15 @@
 import { SequelizeAuto } from 'sequelize-auto';
 import { mysqlSequelize } from '@/db';
-import { mysqlSequelizeAutoOptions } from '@/config';
+import { mysqlSequelizeAutoOptions } from '@/config/sequelizeAuto';
 
-export const sequelizeAuto = new SequelizeAuto(
+export const initMysqlSequelizeAuto = new SequelizeAuto(
   mysqlSequelize,
   null,
   null,
-  mysqlSequelizeAutoOptions
+  mysqlSequelizeAutoOptions,
 );
 
-sequelizeAuto
+initMysqlSequelizeAuto
   .run()
   .then((data) => {
     if (process.env.NODE_ENV === 'development') {
@@ -20,6 +20,6 @@ sequelizeAuto
       // console.log(data.relations); // relationships between models
       // console.log(data.text); // text of generated models
     }
-    console.log('生成数据库模型成功');
+    console.log('生成mysql数据库模型成功');
   })
   .catch((err) => console.log(err));
