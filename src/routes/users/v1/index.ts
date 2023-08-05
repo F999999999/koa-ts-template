@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import { register, login, Info } from '@/controller/users/v1';
+import { register, login, info } from '@/controller/users/v1';
 
 const router = new Router({ prefix: '/users/v1' });
 // 注册
@@ -7,6 +7,6 @@ router.post('/register', register);
 // 登录
 router.post('/login', login);
 // 信息
-router.get('/info', Info);
+router.get('/info', info);
 
 module.exports = router;
